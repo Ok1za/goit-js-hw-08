@@ -1,0 +1,19 @@
+.gallery {
+    display: flex;
+    padding: 24px 156px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    background-color: #FFF;
+}
+
+.gallery-image {
+    width: 360px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.gallery-image:hover {
+    transform: scale(1.04);
+} 
