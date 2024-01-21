@@ -66,38 +66,45 @@ const images = [
     },
 ];
 
-const galleryContainer = document.querySelector('.gallery');
-
-    images.forEach(image => {
-        const galleryItem = document.createElement('li');
-        galleryItem.classList.add('gallery-item');
-
-        const galleryLink = document.createElement('a');
-        galleryLink.classList.add('gallery-link');
-        galleryLink.href = image.original;
-
-        const galleryImage = document.createElement('img');
-        galleryImage.classList.add('gallery-image');
-        galleryImage.src = image.preview;
-        galleryImage.setAttribute('data-source', image.original);
-        galleryImage.alt = image.description;
-
-        galleryLink.appendChild(galleryImage);
-        galleryItem.appendChild(galleryLink);
-        galleryContainer.appendChild(galleryItem);
+    const gallery = document.querySelector("#myGallery");
+    let lightbox;
+    gallery.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (event.target.classList.contains("gallery-image")) {
+        const originalSrc = event.target.dataset.source;
+        lightbox = basicLightbox.create(
+        `<img width="1400" height="900" src="${originalSrc}">`
+        );
+        lightbox.show();
+        document.addEventListener("keydown", handleKeyDown);
+    }
     });
 
-    galleryContainer.addEventListener('click', onGalleryClick);
-
-function onGalleryClick(event) {
-    event.preventDefault();
-    
-    const galleryItem = event.target.closest('.gallery-item');
-
-    const target = event.target;
-
-    if (target.classList.contains('gallery-image')) {
-        const largeImageSrc = target.getAttribute('data-source');
-        console.log('Посилання на велике зображення:', largeImageSrc);
+    function handleKeyDown(event) {
+    if (event.key === "Escape" || event.code === "Escape") {
+        closeLightbox();
     }
-}
+    }
+
+    function closeLightbox() {
+    if (lightbox && lightbox.visible()) {
+        lightbox.close();
+        document.removeEventListener("keydown", handleKeyDown);
+    }
+    }
+
+    const markup = images.map(
+        (image) => `<li class="gallery-item">
+    <a class="gallery-link" href="${image.original}">
+        <img
+        class="gallery-image"
+        src="${image.preview}"
+        data-source="${image.original}"
+        alt="${image.description}"
+        />
+    </a>
+    </li>`
+    )
+    .join("");
+
+gallery.innerHTML = markup;

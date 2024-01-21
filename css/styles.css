@@ -17,3 +17,12 @@
 .gallery-image:hover {
     transform: scale(1.04);
 } 
+
+body {
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+li {
+    list-style-type: none;
+}
