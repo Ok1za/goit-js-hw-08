@@ -1,11 +1,10 @@
 .gallery {
     display: flex;
     padding: 24px 156px;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
     gap: 24px;
-    background-color: #FFF;
+    margin: 0;
 }
 
 .gallery-image {
@@ -19,6 +18,7 @@
 } 
 
 body {
+    max-width: 1440px;
     box-sizing: border-box;
     margin: 0 auto;
 }

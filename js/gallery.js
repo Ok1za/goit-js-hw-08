@@ -66,19 +66,27 @@ const images = [
     },
 ];
 
-    const gallery = document.querySelector("#myGallery");
+    const gallery = document.querySelector(".gallery");
     let lightbox;
     gallery.addEventListener("click", (event) => {
-    event.preventDefault();
+        event.preventDefault();
+        
     if (event.target.classList.contains("gallery-image")) {
         const originalSrc = event.target.dataset.source;
         lightbox = basicLightbox.create(
-        `<img width="1400" height="900" src="${originalSrc}">`
-        );
-        lightbox.show();
-        document.addEventListener("keydown", handleKeyDown);
+        `<img width="1400" height="900" src="${originalSrc}">`,
+        {
+            onShow: () => {
+                document.addEventListener("keydown", handleKeyDown);
+            },
+            onClose: () => {
+                document.removeEventListener("keydown", handleKeyDown);
+            },
+        }
+    );
+    lightbox.show();
     }
-    });
+});
 
     function handleKeyDown(event) {
     if (event.key === "Escape" || event.code === "Escape") {
@@ -93,14 +101,15 @@ const images = [
     }
     }
 
-    const markup = images.map(
-        (image) => `<li class="gallery-item">
-    <a class="gallery-link" href="${image.original}">
+    const markup = images
+        .map(
+        ({ original, description, preview }) => `<li class="gallery-item">
+    <a class="gallery-link" href="${original}">
         <img
         class="gallery-image"
-        src="${image.preview}"
-        data-source="${image.original}"
-        alt="${image.description}"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
         />
     </a>
     </li>`
